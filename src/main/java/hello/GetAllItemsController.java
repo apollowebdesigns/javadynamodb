@@ -11,6 +11,7 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
+import hello.jsontemplates.Beaches;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import java.util.Iterator;
 @RestController
 public class GetAllItemsController {
     @RequestMapping("/getitems")
-    public String getItemsFromDynamoDB() {
+    public Beaches getItemsFromDynamoDB() {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:8002", "us-west-2"))
                 .build();
@@ -30,21 +31,29 @@ public class GetAllItemsController {
 
         ScanSpec scanSpec = new ScanSpec();
 
+        String beachName = null;
+
+        Beaches beaches = new Beaches();
+
         try {
             ItemCollection<ScanOutcome> items = table.scan(scanSpec);
 
             Iterator<Item> iter = items.iterator();
             while (iter.hasNext()) {
                 Item item = iter.next();
-                System.out.println(item.asMap().get("beach"));
+
+                beachName = (String) item.asMap().get("beach");
+
+                beaches.getBeach().add(beachName);
+                System.out.println(beachName);
             }
 
         }
         catch (Exception e) {
             System.err.println("Unable to scan the table:");
             System.err.println(e.getMessage());
+        }   finally {
+            return beaches;
         }
-
-        return "got all items";
     }
 }
