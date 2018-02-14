@@ -12,6 +12,8 @@ import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import hello.jsontemplates.Beaches;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,9 @@ import java.util.Iterator;
 
 @RestController
 public class GetAllItemsController {
+
+    Logger logger = LoggerFactory.getLogger(GetAllItemsController.class);
+
     @RequestMapping("/getitems")
     public Beaches getItemsFromDynamoDB() {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
@@ -45,7 +50,7 @@ public class GetAllItemsController {
                 beachName = (String) item.asMap().get("beach");
 
                 beaches.getBeach().add(beachName);
-                System.out.println(beachName);
+                logger.info(beachName);
             }
 
         }
