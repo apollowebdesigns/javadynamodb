@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</head>
+<body ng-app="app" ng-controller="AppController as myCtrl">
+    <h1>Get Some Data</h1>
+    <p>{{myCtrl.test}}</p>
+</body>
+<script>
+    angular
+        .module('app', []);
+
+    angular
+        .module('app')
+        .controller('AppController', AppController);
+
+    AppController.$inject = ['$http'];
+
+    function AppController($http) {
+        let vm = this;
+
+        vm.test = 'hello';
+
+        let data = {
+            "beaches": ["exmouth1"]
+        };
+        $http.post('/putitem', data).then(successCallback, errorCallback);
+
+        function successCallback(data) {
+            console.log("success");
+            console.log(data);
+        }
+
+        function errorCallback(err) {
+            console.log("err");
+            console.log(err);
+        }
+
+    }
+</script>
+</html>
