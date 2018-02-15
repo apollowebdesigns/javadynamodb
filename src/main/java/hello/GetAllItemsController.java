@@ -55,8 +55,8 @@ public class GetAllItemsController {
 
         }
         catch (Exception e) {
-            System.err.println("Unable to scan the table:");
-            System.err.println(e.getMessage());
+            logger.error("Unable to scan the table:");
+            logger.error(e.getMessage());
         }   finally {
             return beaches;
         }

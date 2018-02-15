@@ -6,6 +6,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +15,8 @@ import java.util.Arrays;
 
 @RestController
 public class DeleteTableController {
+    
+    private Logger logger = LoggerFactory.getLogger(DeleteTableController.class);
 
     public static final String DYNAMODB = "http://localhost:8002";
 
@@ -29,15 +33,15 @@ public class DeleteTableController {
         Table table = dynamoDB.getTable(tablename);
 
         try {
-            System.out.println("Attempting to delete table; please wait...");
+            logger.info("Attempting to delete table; please wait...");
             table.delete();
             table.waitForDelete();
             System.out.print("Success.");
 
         }
         catch (Exception e) {
-            System.err.println("Unable to delete table: ");
-            System.err.println(e.getMessage());
+            logger.error("Unable to delete table: ");
+            logger.error(e.getMessage());
         }
     }
 

@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Controller
 public class PutItemController {
 
-    Logger logger = LoggerFactory.getLogger(PutItemController.class);
+    private Logger logger = LoggerFactory.getLogger(PutItemController.class);
 
     @PostMapping(value="/putitem", produces = {"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Beaches putItemIntoDB(@RequestBody Beaches beaches) {

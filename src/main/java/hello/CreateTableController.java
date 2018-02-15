@@ -41,8 +41,8 @@ public class CreateTableController {
 
         }
         catch (Exception e) {
-            System.err.println("Unable to create table: ");
-            System.err.println(e.getMessage());
+            logger.error("Unable to create table: ");
+            logger.error(e.getMessage());
         }
     }
 
