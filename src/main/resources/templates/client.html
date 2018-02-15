@@ -30,20 +30,13 @@
         vm.test = 'hello';
 
         let data = {
-            "beaches": ["exmouth1"]
+            "beaches": ["Budleigh"]
         };
-        $http.post('/putitem', data).then(successCallback, errorCallback);
 
-        function successCallback(data) {
-            console.log("success");
-            console.log(data);
-        }
-
-        function errorCallback(err) {
-            console.log("err");
-            console.log(err);
-        }
-
+        $http
+            .post('/putitem', data)
+            .then(data => console.log("success: " + data))
+            .catch(err => console.log("err: " + err));
     }
 </script>
 </html>

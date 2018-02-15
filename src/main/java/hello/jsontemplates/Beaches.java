@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Beaches {
-    @JsonProperty("beach")
-    private List<String> beach;
+    @JsonProperty("beaches")
+    private List<String> beaches;
 
     public Beaches() {
-        this.beach = new ArrayList<>();
+        this.beaches = new ArrayList<>();
     }
 
     public Beaches(List<String> beach) {
-        this.beach = beach;
+        this.beaches = beaches;
     }
 
     public List<String> getBeach() {
-        return beach;
+        return beaches;
     }
 }

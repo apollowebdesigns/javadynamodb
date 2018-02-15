@@ -8,11 +8,13 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.jsontemplates.Beaches;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,7 @@ public class PutItemController {
     public Beaches putItemIntoDB(@RequestBody Beaches inputBeaches) {
 
         System.out.println("the beaches going in are");
-        System.out.println(inputBeaches);
+        System.out.println(inputBeaches.getBeach().get(0));
 
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:8002", "us-west-2"))
@@ -45,7 +47,7 @@ public class PutItemController {
         String beach = "Exmouth";
 
         try {
-            for (String site : beaches) {
+            for (String site : inputBeaches.getBeach()) {
                 Item item = new Item().withPrimaryKey("beach", site);
                 System.out.println("Updating the item...");
                 table.putItem(item);
