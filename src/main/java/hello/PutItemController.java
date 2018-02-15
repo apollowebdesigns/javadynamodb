@@ -10,6 +10,8 @@ import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.jsontemplates.Beaches;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +27,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Controller
 public class PutItemController {
 
-    @PostMapping(value="/putitem", produces = {"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Beaches putItemIntoDB(@RequestBody Beaches inputBeaches) {
+    Logger logger = LoggerFactory.getLogger(PutItemController.class);
 
-        System.out.println("the beaches going in are");
-        System.out.println(inputBeaches.getBeach().get(0));
+    @PostMapping(value="/putitem", produces = {"application/json"}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Beaches putItemIntoDB(@RequestBody Beaches beaches) {
+
+        logger.info("the beaches going in are");
+        logger.info(beaches.getBeach().toString());
 
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:8002", "us-west-2"))
@@ -39,24 +43,17 @@ public class PutItemController {
 
         Table table = dynamoDB.getTable("Beaches");
 
-        List<String> beaches = new ArrayList<>();
-
-        beaches.add("Exmouth");
-        beaches.add("Dawlish");
-
-        String beach = "Exmouth";
-
         try {
-            for (String site : inputBeaches.getBeach()) {
+            for (String site : beaches.getBeach()) {
                 Item item = new Item().withPrimaryKey("beach", site);
-                System.out.println("Updating the item...");
+                logger.info("Updating the item...");
                 table.putItem(item);
-                System.out.println("UpdateItem succeeded:\n");
+                logger.info("UpdateItem succeeded:\n");
             }
         }
         catch (Exception e) {
-            System.err.println("Unable to update item: " + beach);
-            System.err.println(e.getMessage());
+            logger.error("Unable to update item: " + beaches);
+            logger.error(e.getMessage());
         }
 
         return new Beaches(new ArrayList<>());
