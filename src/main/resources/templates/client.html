@@ -14,29 +14,5 @@
     <h1>Get Some Data</h1>
     <p>{{myCtrl.test}}</p>
 </body>
-<script>
-    angular
-        .module('app', []);
-
-    angular
-        .module('app')
-        .controller('AppController', AppController);
-
-    AppController.$inject = ['$http'];
-
-    function AppController($http) {
-        let vm = this;
-
-        vm.test = 'hello';
-
-        let data = {
-            "beaches": ["Budleigh"]
-        };
-
-        $http
-            .post('/putitem', data)
-            .then(data => console.log("success: " + data))
-            .catch(err => console.log("err: " + err));
-    }
-</script>
+<script type="text/javascript" th:src="@{/app.js}"></script>
 </html>
