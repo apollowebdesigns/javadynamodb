@@ -26,6 +26,6 @@ public class GetAllItemsControllerTest {
     public void getHello() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/getitems").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("{\"beach\":[\"Exmouth\"]}")));
+                .andExpect(content().string(equalTo("{\"beach\":[\"exmouth1\",\"Dawlish\",\"Exmouth\",\"Budleigh\"],\"beaches\":[\"exmouth1\",\"Dawlish\",\"Exmouth\",\"Budleigh\"]}")));
     }
 }
