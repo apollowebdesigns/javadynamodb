@@ -24,6 +24,8 @@ public class GetAllItemsController {
 
     @RequestMapping("/getitems")
     public Beaches getItemsFromDynamoDB() {
+        simulateSlowService();
+
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("http://localhost:8002", "us-west-2"))
                 .build();
@@ -57,6 +59,15 @@ public class GetAllItemsController {
             logger.error(e.getMessage());
         }   finally {
             return beaches;
+        }
+    }
+
+    private void simulateSlowService() {
+        try {
+            long time = 6454566000L;
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
         }
     }
 }
